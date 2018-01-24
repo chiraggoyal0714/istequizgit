@@ -1,3 +1,1 @@
 # istequizgit
-# istequizgit
-# istequizgit
