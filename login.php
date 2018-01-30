@@ -8,34 +8,7 @@ if($value == 1){
 else{
     signup();
 }
-function login(){
-    $username = $_POST['name'];
-    $password = $_POST['password'];
-    $db = getDB();
-    if($username='admin' && $password='admin!davinci2k18'){
-        $_SESSION['admin']=1;
-        $_SESSION['id'] = 0;
-        header('location:admin.php');
-    }
-    else{
-        $stmt=$db->prepare('SELECT * FROM users WHERE username = :username and password = :password ' );
-        $stmt->bindValue(':username', $username);
-        $stmt->bindValue(':password', $password);
-        $stmt->execute();
-        $login = $stmt->fetchall();
-        $count = count($login);
-        echo $count;
-        if($count != 0 ){
-            $_SESSION['username']=$username;
-            $_SESSION['id'] = $login[0]['id'];
-            header('location:page.php');
-        }
-        else{
-            echo "<script type='text/javascript'>alert('Invalid Username or Password'); location='userlogin.php';</script>";
-        }
-    }
 
-}
 
 function signup(){
     $username = $_POST['username'];
@@ -68,6 +41,35 @@ function signup(){
     }
     else{
         echo "<script type='text/javascript'>alert('Password Not Match'); location='usersignup.php';</script>";
+    }
+
+}
+
+function login(){
+    $username = $_POST['name'];
+    $password = $_POST['password'];
+    $db = getDB();
+    if($username='admin' && $password='admin!davinci2k18'){
+        $_SESSION['admin']=1;
+        $_SESSION['id'] = 0;
+        header('location:admin.php');
+    }
+    else{
+        $stmt=$db->prepare('SELECT * FROM users WHERE username = :username and password = :password ' );
+        $stmt->bindValue(':username', $username);
+        $stmt->bindValue(':password', $password);
+        $stmt->execute();
+        $login = $stmt->fetchall();
+        $count = count($login);
+        echo $count;
+        if($count != 0 ){
+            $_SESSION['username']=$username;
+            $_SESSION['id'] = $login[0]['id'];
+            header('location:page.php');
+        }
+        else{
+            echo "<script type='text/javascript'>alert('Invalid Username or Password'); location='userlogin.php';</script>";
+        }
     }
 
 }
