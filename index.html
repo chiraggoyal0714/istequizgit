@@ -1,10 +1,166 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>
-        quiz
+    <title>Tale of Crypton
     </title>
+    <link rel="shortcut icon" href="/images/bg/fav.png" />
+
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+        jQuery(window).load(function(){
+            jQuery(".hameid-loader-overlay").fadeIn('fast').delay(3000).fadeOut('fast');
+
+        });
+    </script>
+    <style >
+        body{
+            background: url("images/bg/final.jpg")  #FFF;
+            position: static;
+            background-repeat:no-repeat;
+        }
+        .hameid-loader-overlay {
+            width: 100%;
+            height: 100%;
+            background: url('loader.gif') center no-repeat #FFF;
+            z-index: 99999;
+            position: fixed;
+        }
+        @font-face {
+            font-family: myFirstFont;
+            src: url(122.ttf);
+        }
+        h1 {
+            font-family: myFirstFont;
+            font-size: 95px;
+        }
+        button {
+            font-family: myFirstFont;
+            font-size: 45px;
+        }
+        a {
+            font-family: myFirstFont;
+            color: #ffffff;
+            font-size: 105px;
+        }
+        span{
+            font-family: myFirstFont;
+            font-size: 45px;
+        }
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        @media screen and (max-height: 450px) {
+            .sidenav {padding-top: 15px;}
+            .sidenav a {font-size: 18px;}
+        }
+    </style>
 </head>
-<body>
-<a href="userlogin.php">login </a> &nbsp; ||  &nbsp; <a href="usersignup.php"> Signup </a>
+<body >
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="index.html">Home</a>
+    <a href="leaderboard.php">Leaderboard</a>
+    <a href="story.php">Story Line</a>
+    <a href="rule.php">Rules</a>
+    <a href="logout.php"> Logout </a></div>
+<span  style="color:#ffffff;font-size:30px;cursor:pointer;position: fixed;margin-top: 600px" onclick="openNav()">&#9776; Menu</span>
+
+<div class="hameid-loader-overlay"></div>
+<button style="color: #000;margin: 566px 0 0 525px;width: 240px;height: 50px;" scope="public_profile,email" class="fb_login" onclick="checkLoginState();">
+    login
+</button>
+
+<div id="status">
+</div>
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+    function statusChangeCallback(response) {
+        console.log('statusChangeCallback');
+        console.log(response);
+        if (response.status === 'connected') {
+            testAPI();
+        } else if (response.status === 'not_authorized') {
+            document.getElementById('status').innerHTML = 'Please log ' +
+                'into this app.';
+        } else {
+            document.getElementById('status').innerHTML = 'Please log ' +
+                'into Facebook.';
+        }
+    }
+    function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+    }
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '587199611619768',
+            xfbml      : true,
+            version    : 'v2.12'
+        });
+        $(".fb_login").click(function() {
+            FB.login(checkLoginState());
+        });
+
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    function testAPI() {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', {fields: 'name,email'},function(response) {
+            console.log('Successful login for: ' + response.name);
+            //document.getElementById('status').innerHTML =
+            //'Thanks for logging in, ' + response.name + '!'+response.email +'.';
+            var name=response.name;
+            var id=response.id;
+            var email=response.email;
+            window.location="login.php?name="+name+"&id="+id+"&email="+email;
+        });
+    }
+</script>
 </body>
 </html>
